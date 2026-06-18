@@ -1,17 +1,19 @@
 import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View ,Text, Button} from 'react-native';
+import {storage} from '../store/mmkv';
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 
 export default function ModalScreen() {
+  const [name,setName]=useState(storage.getString('user.displayname'))
+  const updateName=()=>{
+    storage.set('user.displayname', 'Shawaiz Ali Rehman');
+  }
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">This is a modal</ThemedText>
-      <Link href="/" dismissTo style={styles.link}>
-        <ThemedText type="link">Go to home screen</ThemedText>
-      </Link>
-    </ThemedView>
+    <View style={styles.container}>
+      <Text>Welcome to the App:{name}</Text>
+      <Button onPress={updateName} title="Update"></Button>
+    </View>
   );
 }
 
@@ -20,7 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
   },
   link: {
     marginTop: 15,
